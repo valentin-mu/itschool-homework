@@ -1,4 +1,4 @@
-# Because of poor fantasy,
+# Because of poor fantasy, ##  added in heaters branch
 # let's generalize idea of kettle :)
 # We have Heater class that implements work of heater device
 # and some classes that inherit from Heater
