@@ -80,9 +80,16 @@ class Toaster(Heater):
 
 class Boiler(Heater):
     tank = 1
-    tank_volume = 0
-    heating_indicator = 0
+    tank_volume = 0 # bool is it filled with water or not.
+    heating_indicator = 0 # disabled by default
+    water_input = 1
     destination_temperature = self.current_temperature
+    def is_water_input_present(self):
+        return self.water_input
+    def is_tank_filled(self):
+        return self.tank_volume
+    def fill_tank(self):
+        self.tank_volume = 1
     def indicator_on(self):
         self.heating_indicator = 1
     def indicator_off(self):
@@ -94,15 +101,23 @@ class Boiler(Heater):
         elif temp <= self.current_temperature: print "i'm not a conditioner :) "
         else: self.destination_temperature = temp
 
-    # def heat(self,max_temp):
-    #     while True:
-    #         if self.fuse == "burnt":
-    #             self.indicator_off()
-    #             self.power_off()
-    #             break
+    def get_hot_water_from_tank(self):
+        self.tank_volume = 0
 
-    #         while self.current_temperature <= self.max_temp:
-    #             self.indicator_on()
-    #             self.current_temperature += 5
-    #             self.get_current_temperature()
-    #         self.indicator_off()
+    def plug_into_socket(self):
+        while True:
+            if self.is_tank_filled() and self.is_water_input_present() and self.is_power_correct():
+                if self.current_temperature >= self.destination_temperature:
+                    print "we heated to destination temperature or hotter"
+                    self.indicator_off()
+                else:
+                    self.indicator_on()
+                    self.heat( self.destination_temperature )
+            # disable everything if we cannot fill tank or having problem with power input
+            elif not self.is_water_input_present() or not self.is_power_correct():
+                self.indicator_off()
+                print "water is absent or problems with power, call assistance"
+                break
+            elif not self.is_tank_filled():
+                self.fill_tank()
+                self.indicator_off()
