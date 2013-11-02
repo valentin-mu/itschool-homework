@@ -5,16 +5,15 @@
 # I will use python. Because of python doesn't know about 
 # private, i separated public methods with comment
 
-
 class Heater (object):
     power_consumption = 1000 #how powerful heater is
     max_heating_temperature = 100
     max_voltage = 240
     #power supply properties
-    power_input  = 0#did we plugged heater into socket
-    power_voltage = 220 #what voltage is in circuit
+    power_input  = 0 # did we plugged heater into socket
+    power_voltage = 220 # what voltage is in circuit
     power_fuse =1 # do we have fuse or not
-    heating_element = "unpowered" #is it powered or not
+    heating_element = "unpowered" # is it powered or not
     current_temperature = 25 # here we store temperature
     
     def get_current_temperature(self):
@@ -44,7 +43,7 @@ class Heater (object):
     def heat(self,max_temp):
         self.heating_element = "powered"
         while self.current_temperature <= self.max_temperature:
-            self.current_temperature += 5 #imitate heating :)
+            self.current_temperature += 5 # imitate heating :)
             self.get_current_temperature()
         self.power_off()
     
@@ -53,6 +52,7 @@ class Heater (object):
         self.power_on()
     def plug_into_socket(self):
         pass
+
 class Toaster(Heater):
     """
     let's suppose we have clever toaster
