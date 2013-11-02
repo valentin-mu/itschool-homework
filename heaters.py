@@ -6,7 +6,7 @@
 # private, i separated public methods with comment
 
 class Heater (object):
-    power_consumption = 1000 #how powerful heater is
+    power_consumption = 1000 # how powerful heater is
     max_heating_temperature = 100
     max_voltage = 240
     #power supply properties
@@ -40,13 +40,15 @@ class Heater (object):
     def fuse_burn_out(self):
         self.power_fuse = "burnt"
 
-    def heat(self,max_temp):
-        self.heating_element = "powered"
-        while self.current_temperature <= self.max_temperature:
-            self.current_temperature += 5 # imitate heating :)
-            self.get_current_temperature()
-        self.power_off()
-    
+    def heat(self, temperature):
+        if self.current_temperature < temperature:
+            self.heating_element = "powered"
+            while self.current_temperature <= temperature:
+                self.current_temperature += 5 # imitate heating :)
+                self.get_current_temperature()
+            self.power_off()
+        else: print "we reached desired temperature or even have bigger"
+
     # user-controlled methods
     def button_down(self):
         self.power_on()
