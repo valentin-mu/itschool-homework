@@ -61,10 +61,20 @@ class Toaster(Heater):
     number_of_breads = 2
     number_of_breads_present = 0
     bread_evacuator = 1
-    lever = "up" # variable that indicates state of lever
-    # TODO: add possiblity to variate toasts' brownness
+    lever = "up"
+    brownness_switch = 1 # "1 - light","2 - medium","3 - dark" brownness
+    timer = 1 # timer is present as a part of toaster
     def bread_evacuate(self):
         self.lever = "up"
+
+    def brownness_to_seconds(self,brownness_switch):
+        if brownness_switch == 1: return 30
+        elif brownness_switch == 2: return 45
+        elif brownness_switch == 3: return 100
+
+    def timer_start(self.interval):
+        timer = Timer( interval , self.bread_evacuate() )
+        timer.start()
 
     # user-controlled methods
     def put_breads(self, number):
@@ -78,20 +88,23 @@ class Toaster(Heater):
             self.number_of_breads_present = number
         else: print "something went wrong "
 
+    def set_brownness(self.value):
+        if value != 1 or value != 2 or value != 3: print "you entered incorrect brownness, be careful with switch"
+        else: self.brownness_switch = switch
+
     def lever_down(self):
         if self.number_of_breads_present < 1:
             self.lever = "up"
-            print "toaster is empty put some bread please"
+            print "toaster is empty, put some bread please"
         self.lever = "down"
-        self.heat()
-        self.bread_evacuate()
+        self.heat(self.max_heating_temperature) # reached max temperature, assume there is no heat loss
+        self.timer_start( self.brownness_to_seconds(self.brownness_switch) )
 
     def plug_into_socket(self):
         if self.lever == "up": print "all ok. i'm ready"
         if self.lever == "down" and self.number_of_breads_present == 0:
             print "put some bread, i have nothing to heat"
             self.bread_evacuate()
-
 
 class Boiler(Heater):
     tank = 1
