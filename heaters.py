@@ -6,7 +6,7 @@
 # private, i separated public methods with comment
 
 class Heater (object):
-    power_consumption = 1000 #how powerful heater is
+    power_consumption = 1000 # how powerful heater is
     max_heating_temperature = 100
     max_voltage = 240
     #power supply properties
@@ -82,19 +82,27 @@ class Boiler(Heater):
     tank = 1
     tank_volume = 0
     heating_indicator = 0
+    destination_temperature = self.current_temperature
     def indicator_on(self):
-        pass
+        self.heating_indicator = 1
     def indicator_off(self):
-        pass
-    def heat(self,max_temp):
-        while True:
-            if self.fuse == "burnt":
-                self.indicator_off()
-                self.power_off()
-                break
+        self.heating_indicator = 0
 
-            while self.current_temperature <= self.max_temp:
-                self.indicator_on()
-                self.current_temperature += 5
-                self.get_current_temperature()
-            self.indicator_off()
+    # user-controlled methods
+    def set_water_temperature(self,temp):
+        if temp > self.max_heating_temperature: print "i cant make water hotter than %d" % self.max_heating_temperature
+        elif temp <= self.current_temperature: print "i'm not a conditioner :) "
+        else: self.destination_temperature = temp
+
+    # def heat(self,max_temp):
+    #     while True:
+    #         if self.fuse == "burnt":
+    #             self.indicator_off()
+    #             self.power_off()
+    #             break
+
+    #         while self.current_temperature <= self.max_temp:
+    #             self.indicator_on()
+    #             self.current_temperature += 5
+    #             self.get_current_temperature()
+    #         self.indicator_off()
