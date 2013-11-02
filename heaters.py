@@ -1,4 +1,4 @@
-# Because of poor fantasy, ##  added in heaters branch
+# Because of poor fantasy,
 # let's generalize idea of kettle :)
 # We have Heater class that implements work of heater device
 # and some classes that inherit from Heater
@@ -6,7 +6,7 @@
 # private, i separated public methods with comment
 
 class Heater (object):
-    power_consumption = 1000 #how powerful heater is
+    power_consumption = 1000 # how powerful heater is
     max_heating_temperature = 100
     max_voltage = 240
     #power supply properties
@@ -57,26 +57,41 @@ class Toaster(Heater):
     """
     let's suppose we have clever toaster
     that can measure temperature,
-    not just starting timer when switched on
     """
     number_of_breads = 2
     number_of_breads_present = 0
     bread_evacuator = 1
-    lever = "up"
+    lever = "up" # variable that indicates state of lever
+    # TODO: add possiblity to variate toasts' brownness
     def bread_evacuate(self):
         self.lever = "up"
-    def heat(self,max_temp):
-            while self.current_temperature <= self.max_temp:
-                self.current_temperature += 5
-                self.get_current_temperature()
-            self.bread.evacuate()
-            self.power_off()
-    
+
     # user-controlled methods
     def put_breads(self, number):
-        pass
+        if number > self.number_of_breads:
+            print "you cannot put more breads than i can heat"
+        elif number == 1:
+            print "ok, i can heat one bread, but maybe you'll put one more?"
+            self.number_of_breads_present = number
+        elif number == 2:
+            print "ok, i'm ready to heat them both"
+            self.number_of_breads_present = number
+        else: print "something went wrong "
+
     def lever_down(self):
+        if self.number_of_breads_present < 1:
+            self.lever = "up"
+            print "toaster is empty put some bread please"
         self.lever = "down"
+        self.heat()
+        self.bread_evacuate()
+
+    def plug_into_socket(self):
+        if self.lever == "up": print "all ok. i'm ready"
+        if self.lever == "down" and self.number_of_breads_present == 0:
+            print "put some bread, i have nothing to heat"
+            self.bread_evacuate()
+
 
 class Boiler(Heater):
     tank = 1
