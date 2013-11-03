@@ -59,26 +59,54 @@ class Toaster(Heater):
     """
     let's suppose we have clever toaster
     that can measure temperature,
-    not just starting timer when switched on
     """
     number_of_breads = 2
     number_of_breads_present = 0
     bread_evacuator = 1
     lever = "up"
+    brownness_switch = 1 # "1 - light","2 - medium","3 - dark" brownness
+    timer = 1 # timer is present as a part of toaster
     def bread_evacuate(self):
         self.lever = "up"
-    def heat(self,max_temp):
-            while self.current_temperature <= self.max_temp:
-                self.current_temperature += 5
-                self.get_current_temperature()
-            self.bread.evacuate()
-            self.power_off()
-    
+
+    def brownness_to_seconds(self,brownness_switch):
+        if brownness_switch == 1: return 30
+        elif brownness_switch == 2: return 45
+        elif brownness_switch == 3: return 100
+
+    def timer_start(self.interval):
+        timer = Timer( interval , self.bread_evacuate() )
+        timer.start()
+
     # user-controlled methods
     def put_breads(self, number):
-        pass
+        if number > self.number_of_breads:
+            print "you cannot put more breads than i can heat"
+        elif number == 1:
+            print "ok, i can heat one bread, but maybe you'll put one more?"
+            self.number_of_breads_present = number
+        elif number == 2:
+            print "ok, i'm ready to heat them both"
+            self.number_of_breads_present = number
+        else: print "something went wrong "
+
+    def set_brownness(self.value):
+        if value != 1 or value != 2 or value != 3: print "you entered incorrect brownness, be careful with switch"
+        else: self.brownness_switch = switch
+
     def lever_down(self):
+        if self.number_of_breads_present < 1:
+            self.lever = "up"
+            print "toaster is empty, put some bread please"
         self.lever = "down"
+        self.heat(self.max_heating_temperature) # reached max temperature, assume there is no heat loss
+        self.timer_start( self.brownness_to_seconds(self.brownness_switch) )
+
+    def plug_into_socket(self):
+        if self.lever == "up": print "all ok. i'm ready"
+        if self.lever == "down" and self.number_of_breads_present == 0:
+            print "put some bread, i have nothing to heat"
+            self.bread_evacuate()
 
 class Boiler(Heater):
     tank = 1
