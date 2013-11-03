@@ -5,7 +5,7 @@
 # I will use python. Because of python doesn't know about 
 # private, i separated public methods with comment
 
-class Heater (object):
+class Heater (object): ## added this to produce merge conflict
     power_consumption = 1000 # how powerful heater is
     max_heating_temperature = 100
     max_voltage = 240
@@ -46,7 +46,7 @@ class Heater (object):
             self.current_temperature += 5 # imitate heating :)
             self.get_current_temperature()
         self.power_off()
-    
+    ## added this to produce merge conflict
     # user-controlled methods
     def button_down(self):
         self.power_on()
